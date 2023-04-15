@@ -1,4 +1,4 @@
-@import './configs.scss';
+@import './config.scss';
 
 @font-face {
     font-family: $fontRegular;
@@ -87,5 +87,6 @@ body {
     @media screen and (min-width: $desktopBreakpoint) {
         background-color: $primaryColorWithOpacity;
         background-image: url('../images/background.svg');
+        background-size: cover;
     }
 }

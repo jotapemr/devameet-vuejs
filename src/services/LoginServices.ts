@@ -26,4 +26,10 @@ export class LoginServices extends HttpApiServices{
             }
         }
     }
+
+    logOut(){
+        const store = useAccessTokenStore();
+        localStorage.clear();
+        store.setToken('')
+    }
 }
