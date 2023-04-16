@@ -1,29 +1,26 @@
 <script lang="ts">
-    import {defineComponent} from 'vue'
+    import {defineComponent} from 'vue';
 
     export default defineComponent({
-        props: {
+        props:{
             icon: String,
             alt: String,
             name: String,
             type: String,
             placeholder: String,
-            modelValue: String
+            modelValue: String,
         },
-
         data(){
             return {
                 inputFocus: false
             }
         },
-
-        methods: {
+        methods:{
             setFocus(v: boolean){
                 this.inputFocus = v;
             }
         },
-
-        computed: {
+        computed:{
             model:{
                 get(){
                     return this.modelValue;
@@ -33,14 +30,15 @@
                 }
             }
         }
-    })
+    });
 </script>
 
 <template>
-    <div class="input" :class="{focus: inputFocus}">
-        <img :src="icon" :alt="alt"/>
-        <input :type="type" :name="name" :placeholder="placeholder" :v-model="model" 
-            @focus="setFocus(true)" 
+    <div class="input" :class="{ focus: inputFocus }">
+        <img :src="icon" :alt="alt" />
+        <input :type="type" :name="name" :placeholder="placeholder"
+            v-model="model" 
+            @focus="setFocus(true)"
             @blur="setFocus(false)"/>
     </div>
 </template>
