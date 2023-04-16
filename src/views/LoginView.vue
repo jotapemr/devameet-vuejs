@@ -38,9 +38,9 @@ export default defineComponent({
         },
         async doLogin(){
             try{
-                if(!this.login || !this.login.trim() ||
-                    !this.password || !this.password.trim()){
-                        return this.error = 'Favor informar usuário e senha';
+                    if(!this.login || !this.login.trim() ||
+                     !this.password || !this.password.trim()){
+                       return this.error = 'Favor informar usuário e senha';
                     }
 
                     this.loading = true;
