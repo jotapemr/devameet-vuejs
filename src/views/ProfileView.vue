@@ -4,24 +4,91 @@ import FooterVue from '@/components/general/Footer.vue';
 import { defineComponent } from 'vue';
 import AvatarInput from '@/components/general/AvatarInput.vue';
 import ActionHeader from '@/components/profile/ActionHeader.vue'
+import { LoginServices } from '@/services/LoginServices';
+import router from '@/router';
+import { UserServices } from '@/services/UserServices';
+
+const loginServices = new LoginServices();
+const userServices = new UserServices();
 
 export default defineComponent({
-    components: { HeaderVue, FooterVue, AvatarInput, ActionHeader }
+    components: { HeaderVue, FooterVue, AvatarInput, ActionHeader },
+
+    data(){
+       return {
+            name: localStorage.getItem('name'),
+            avatar: localStorage.getItem('avatar') as string,
+            image: '',
+       } 
+    },
+    methods: {
+        async finishUpdate(){
+            try {
+                if (!this.name) {
+                    return;
+                }
+
+                const body = {} as any;
+
+                if(this.name){
+                    body.name = this.name;
+                }
+
+                if(this.image){
+                    body.avatar = this.image;
+                }else{
+                    body.avatar = this.avatar;
+                }
+
+                await userServices.update(body);
+
+                if(this.name){
+                    localStorage.setItem('name', this.name);
+                }
+
+                if(this.image){
+                    localStorage.setItem('avatar', this.image);
+                }
+
+                return router.back();
+            } catch (e: any) {
+                if (e?.response?.data?.message) {
+                    console.log('Erro ao efetuar atualizar usuário:', e?.response?.data?.message)
+                } else {
+                    console.log('Erro ao efetuar atualizar usuário:', e)
+                }
+            }
+        },
+        setImage(s: string){
+            this.image = s
+        },
+        clearName(){
+            this.name = '';
+        },
+        logout(){
+            loginServices.logout();
+        }
+    },
+    computed: {
+        getImage(){
+            return this.image && this.image.length > 0 ? this.image : this.avatar
+        }
+    }
 });
 </script>
 
 <template>
     <HeaderVue :hide="true"/>
     <div class="container-profile">
-        <ActionHeader/>
-        <AvatarInput/>
+        <ActionHeader @actionCallback="finishUpdate"/>
+        <AvatarInput :image="getImage" @setImage="setImage"/>
         <div class="input">
             <span>Nome</span>
-            <input type="text" placeholder="Informe seu nome"/>
-            <img src="../assets/images/clear.svg" alt="limpar"/>
+            <input v-model="name" type="text" placeholder="Informe seu nome"/>
+            <img src="../assets/images/clear.svg" alt="limpar" @click="clearName"/>
         </div>
         <div class="logout">
-            <div>
+            <div @click="logout">
                 <img src="../assets/images/logout.svg" alt="sair"/>
                 <span>Sair</span>
             </div>
