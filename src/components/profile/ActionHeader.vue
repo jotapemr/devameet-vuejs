@@ -16,4 +16,4 @@ export default defineComponent({
 
 
 
-<style  lang="scss"/>
+<style src="@/assets/styles/actionHeader.scss" lang="scss"/>
