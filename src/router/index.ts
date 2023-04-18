@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginViewVue from '@/views/LoginView.vue'
 import RegisterViewVue from '@/views/RegisterView.vue'
 import HomeViewVue from '@/views/HomeView.vue'
+import ProfileViewVue from '@/views/ProfileView.vue'
 import { useAccessTokenStore } from '@/stores/accessToken';
 
 const router = createRouter({
@@ -22,6 +23,12 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterViewVue,
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: ProfileViewVue,
+      meta: {rotaPrivada: true}
     },
   ]
 });
