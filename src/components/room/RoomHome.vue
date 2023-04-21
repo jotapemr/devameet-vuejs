@@ -14,7 +14,6 @@ export default defineComponent({
         return {
             wsServices,
             userId: localStorage.getItem('id') as string,
-            mobile: window.innerWidth < 992
         }
     },
     data() {
