@@ -27,6 +27,7 @@ export default defineComponent({
             connectedUsers: [] as any,
             me: null as any,
             showModal: false,
+            mobile: window.innerWidth <= 992
         }
     },
     async mounted() {
@@ -66,11 +67,10 @@ export default defineComponent({
                 videoRef.srcObject = this.userMediaStream;
             }
 
-            //estilizar depois
-            // if(document.getElementById('userVideo')){
-            //     const userVideo: any = document.getElementById('userVideo');
-            //     userVideo.srcObject = this.userMediaStream
-            // }
+            if(document.getElementById('userVideo')){
+                const userVideo: any = document.getElementById('userVideo');
+                userVideo.srcObject = this.userMediaStream
+            }
 
         } catch (e) {
             console.log('erro ao obter dados da reunião:', e);
@@ -202,13 +202,16 @@ export default defineComponent({
 <template>
     <div class="container-principal">
         <div class="container-room">
+            <div class="video-container">
+                <video v-if="!mobile" id="userVideo" autoplay playsinline muted/>
+                <video v-if="!mobile" v-for="user in usersWithoutMe" autoplay playsinline :id="user?.clientId" :muted="user?.muted"></video>
+            </div>
             <div class="resume" v-if="objects && objects.length > 0">
                 <div @click="copylink">
                     <span><strong>Reunião</strong> {{ link }}</span>
                     <img src="../../assets/images/copy.svg" />
                 </div>
                 <p :style="{ color }">{{ name }}</p>
-                <!-- <video id="userVideo" autoplay playsinline></video> -->
                 <audio id="localVideoRef" autoplay playsinline muted />
                 <audio v-for="user in usersWithoutMe" autoplay playsinline :id="user?.clientId" :muted="user?.muted" />
             </div>
